@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Bảng Tổng Kết Chi Phí</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ══════════════════════════════════════════
+   THEMES (10 chủ đề)
+══════════════════════════════════════════ */
+:root, [data-theme="classic"] {
+  --accent:       #c9a84c;
+  --accent-dark:  #8a6a1e;
+  --h1:           #2a3f6f;
+  --h2:           #1a2a50;
+  --h-text:       #f0d080;
+  --h-border:     #3a5080;
+  --card-bg:      #f5f0e8;
+  --row-odd:      #faf6ee;
+  --row-even:     #f0e9d8;
+  --row-hover:    #ffefc4;
+  --cell-text:    #1a2a50;
+  --border:       #d4c4a0;
+  --title-color:  #3d2b00;
+  --sub-color:    #5a4a2a;
+  --bg-a:         #0d1b35;
+  --bg-b:         #16213e;
+  --bg-c:         #0f3460;
+  --input-bg:     #fffde7;
+  --input-color:  #1a2a50;
+}
+[data-theme="midnight"] {
+  --accent:       #f0c040;
+  --accent-dark:  #b8900a;
+  --h1:           #141420;
+  --h2:           #0a0a14;
+  --h-text:       #f0c040;
+  --h-border:     #2a2a40;
+  --card-bg:      #1c1c2e;
+  --row-odd:      #242438;
+  --row-even:     #1e1e30;
+  --row-hover:    #30305a;
+  --cell-text:    #dddaf5;
+  --border:       #343456;
+  --title-color:  #f0c040;
+  --sub-color:    #9080c0;
+  --bg-a:         #040408;
+  --bg-b:         #080812;
+  --bg-c:         #0c0c1c;
+  --input-bg:     #1c1c38;
+  --input-color:  #dddaf5;
+}
+[data-theme="forest"] {
+  --accent:       #52b870;
+  --accent-dark:  #2d7a48;
+  --h1:           #1b3c2a;
+  --h2:           #0f2418;
+  --h-text:       #b8f0c8;
+  --h-border:     #2d5c3a;
+  --card-bg:      #f0f7f2;
+  --row-odd:      #f7faf8;
+  --row-even:     #e6f2ec;
+  --row-hover:    #ccf0dc;
+  --cell-text:    #1b3c2a;
+  --border:       #a8d8bc;
+  --title-color:  #0f2418;
+  --sub-color:    #2d5c3a;
+  --bg-a:         #041208;
+  --bg-b:         #081e10;
+  --bg-c:         #0c2a18;
+  --input-bg:     #e8f8ee;
+  --input-color:  #1b3c2a;
+}
+[data-theme="sakura"] {
+  --accent:       #e8758a;
+  --accent-dark:  #c03858;
+  --h1:           #7a2840;
+  --h2:           #5a1c2e;
+  --h-text:       #ffd8e4;
+  --h-border:     #9a3858;
+  --card-bg:      #fff5f7;
+  --row-odd:      #fff9fa;
+  --row-even:     #feeef2;
+  --row-hover:    #ffd4de;
+  --cell-text:    #5a1c2e;
+  --border:       #f0b4c4;
+  --title-color:  #5a1c2e;
+  --sub-color:    #8a3a50;
+  --bg-a:         #280614;
+  --bg-b:         #3c0e22;
+  --bg-c:         #1c040e;
+  --input-bg:     #fff0f4;
+  --input-color:  #5a1c2e;
+}
+[data-theme="ocean"] {
+  --accent:       #38c8e8;
+  --accent-dark:  #1890b0;
+  --h1:           #054060;
+  --h2:           #032840;
+  --h-text:       #a8eeff;
+  --h-border:     #0a6080;
+  --card-bg:      #f0f8ff;
+  --row-odd:      #f6fbff;
+  --row-even:     #e6f2ff;
+  --row-hover:    #c4e8ff;
+  --cell-text:    #032840;
+  --border:       #a4d4f0;
+  --title-color:  #032840;
+  --sub-color:    #0a5878;
+  --bg-a:         #020c18;
+  --bg-b:         #041628;
+  --bg-c:         #062030;
+  --input-bg:     #e8f6ff;
+  --input-color:  #032840;
+}
+/* ── 5 CHỦ ĐỀ MỚI ── */
+[data-theme="sunset"] {
+  --accent:       #ff9340;
+  --accent-dark:  #c06000;
+  --h1:           #3c1800;
+  --h2:           #281000;
+  --h-text:       #ffd8a8;
+  --h-border:     #5a2e00;
+  --card-bg:      #fff9f0;
+  --row-odd:      #fffbf5;
+  --row-even:     #fff0e0;
+  --row-hover:    #ffdcb0;
+  --cell-text:    #3c1800;
+  --border:       #f0c090;
+  --title-color:  #3c1800;
+  --sub-color:    #804000;
+  --bg-a:         #1a0800;
+  --bg-b:         #2e1200;
+  --bg-c:         #1a0e00;
+  --input-bg:     #fff8ec;
+  --input-color:  #3c1800;
+}
+[data-theme="lavender"] {
+  --accent:       #b070f0;
+  --accent-dark:  #6830b0;
+  --h1:           #2a1050;
+  --h2:           #180830;
+  --h-text:       #e8d0ff;
+  --h-border:     #402070;
+  --card-bg:      #f9f0ff;
+  --row-odd:      #fcf8ff;
+  --row-even:     #f0e8ff;
+  --row-hover:    #e0c8ff;
+  --cell-text:    #2a1050;
+  --border:       #d0a8f0;
+  --title-color:  #2a1050;
+  --sub-color:    #6030a0;
+  --bg-a:         #0c0420;
+  --bg-b:         #180838;
+  --bg-c:         #100620;
+  --input-bg:     #f4e8ff;
+  --input-color:  #2a1050;
+}
+[data-theme="neon"] {
+  --accent:       #00ff88;
+  --accent-dark:  #00cc66;
+  --h1:           #001a0c;
+  --h2:           #000e06;
+  --h-text:       #80ffcc;
+  --h-border:     #004422;
+  --card-bg:      #04140e;
+  --row-odd:      #06180e;
+  --row-even:     #051410;
+  --row-hover:    #0c2a1c;
+  --cell-text:    #a0ffd8;
+  --border:       #005530;
+  --title-color:  #00ff88;
+  --sub-color:    #00cc66;
+  --bg-a:         #000804;
+  --bg-b:         #000c06;
+  --bg-c:         #001008;
+  --input-bg:     #051a10;
+  --input-color:  #80ffcc;
+}
+[data-theme="crimson"] {
+  --accent:       #e03060;
+  --accent-dark:  #980020;
+  --h1:           #300010;
+  --h2:           #1e0008;
+  --h-text:       #ffa0b8;
+  --h-border:     #500020;
+  --card-bg:      #fff5f8;
+  --row-odd:      #fff8fb;
+  --row-even:     #ffecf2;
+  --row-hover:    #ffcfdb;
+  --cell-text:    #300010;
+  --border:       #f0a0b8;
+  --title-color:  #300010;
+  --sub-color:    #700020;
+  --bg-a:         #180008;
+  --bg-b:         #260010;
+  --bg-c:         #100006;
+  --input-bg:     #fff0f5;
+  --input-color:  #300010;
+}
+[data-theme="arctic"] {
+  --accent:       #60d8f8;
+  --accent-dark:  #1898c8;
+  --h1:           #0a2a40;
+  --h2:           #061828;
+  --h-text:       #c8f0ff;
+  --h-border:     #184868;
+  --card-bg:      #f0faff;
+  --row-odd:      #f6fcff;
+  --row-even:     #e6f4ff;
+  --row-hover:    #c4e8ff;
+  --cell-text:    #0a2a40;
+  --border:       #88d0f0;
+  --title-color:  #0a2a40;
+  --sub-color:    #1068a8;
+  --bg-a:         #010810;
+  --bg-b:         #021018;
+  --bg-c:         #031420;
+  --input-bg:     #e8f8ff;
+  --input-color:  #0a2a40;
+}
+
+/* ══════════════════════════════════════════
+   KEYFRAMES
+══════════════════════════════════════════ */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes bgFloat {
+  from { transform: translate(-50%,-50%) scale(1) rotate(0deg); }
+  to   { transform: translate(calc(-50% + var(--dx,20px)), calc(-50% + var(--dy,-30px))) scale(1.14) rotate(8deg); }
+}
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(40px) scale(.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toolbarIn {
+  from { opacity: 0; transform: translateY(-16px) scale(.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes hintIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes rowSlideIn {
+  0%   { opacity: 0; transform: translateX(-20px) scaleY(.8); }
+  60%  { opacity: 1; transform: translateX(4px) scaleY(1.02); }
+  100% { opacity: 1; transform: translateX(0) scaleY(1); }
+}
+@keyframes rowExitAnim {
+  0%   { opacity: 1; transform: translateX(0) scaleX(1); max-height: 200px; }
+  100% { opacity: 0; transform: translateX(50px) scaleX(.8); max-height: 0; }
+}
+@keyframes totalPulse {
+  0%,100% { transform: scale(1); }
+  40%     { transform: scale(1.1); filter: brightness(1.3); }
+}
+@keyframes rippleAnim {
+  to { transform: scale(4.5); opacity: 0; }
+}
+@keyframes themeFlash {
+  0%   { opacity: .32; }
+  100% { opacity: 0; }
+}
+@keyframes cellGlow {
+  0%   { box-shadow: 0 0 0 0 rgba(201,168,76,.5); }
+  50%  { box-shadow: 0 0 0 5px rgba(201,168,76,.22); }
+  100% { box-shadow: 0 0 0 0 rgba(201,168,76,.0); }
+}
+@keyframes decoShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 300% center; }
+}
+@keyframes lineBreath {
+  0%,100% { opacity: 1; }
+  50%     { opacity: .5; }
+}
+@keyframes loadIn {
+  from { opacity: 0; transform: scale(.82) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes delBtnPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.3) rotate(-12deg); }
+  100% { transform: scale(0) rotate(20deg); opacity: 0; }
+}
+@keyframes addBtnBounce {
+  0%,100% { transform: translateY(0); }
+  40%     { transform: translateY(-4px); }
+  70%     { transform: translateY(-1px); }
+}
+
+/* ══════════════════════════════════════════
+   BASE
+══════════════════════════════════════════ */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-a) 0%, var(--bg-b) 50%, var(--bg-c) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 12px 56px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  transition: background .55s ease;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── BACKGROUND PARTICLES ── */
+.bg-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.bp {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, var(--accent) 0%, transparent 70%);
+  opacity: .055;
+  animation: bgFloat var(--dur, 10s) ease-in-out infinite alternate;
+  transform: translate(-50%, -50%);
+  transition: background .55s;
+  will-change: transform;
+}
+
+/* ══════════════════════════════════════════
+   TOOLBAR
+══════════════════════════════════════════ */
+.toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 820px;
+  position: relative;
+  z-index: 10;
+}
+
+/* stagger entrance */
+.toolbar > *:nth-child(1) { animation: toolbarIn .42s cubic-bezier(.22,.68,0,1.2) .04s both; }
+.toolbar > *:nth-child(2) { animation: toolbarIn .42s cubic-bezier(.22,.68,0,1.2) .10s both; }
+.toolbar > *:nth-child(3) { animation: toolbarIn .42s cubic-bezier(.22,.68,0,1.2) .16s both; }
+.toolbar > *:nth-child(4) { animation: toolbarIn .42s cubic-bezier(.22,.68,0,1.2) .22s both; }
+.toolbar > *:nth-child(5) { animation: toolbarIn .42s cubic-bezier(.22,.68,0,1.2) .28s both; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0,0,0,.4);
+  transition: transform .18s cubic-bezier(.22,.68,0,1.4), box-shadow .18s, opacity .15s;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  position: relative;
+  overflow: hidden;
+}
+.btn:hover  { transform: translateY(-3px) scale(1.03); box-shadow: 0 7px 18px rgba(0,0,0,.48); }
+.btn:active { transform: translateY(0) scale(.97); opacity: .88; }
+
+/* ripple */
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,.4);
+  transform: scale(0);
+  animation: rippleAnim .55s linear forwards;
+  pointer-events: none;
+}
+
+.btn-add    { background: var(--accent); color: #1a1a2e; }
+.btn-add:hover { animation: addBtnBounce .35s ease; }
+.btn-export { background: #3a7bd5; color: #fff; }
+.btn-916    { background: #7c3aed; color: #fff; }
+.btn-clear  { background: #c0392b; color: #fff; }
+.btn-theme  {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.22);
+}
+
+/* ── THEME WRAPPER & PANEL ── */
+.theme-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+.theme-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  background: rgba(8,8,22,.95);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-shadow: 0 16px 50px rgba(0,0,0,.7);
+  z-index: 200;
+  min-width: 220px;
+  /* hidden state */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(-12px) scale(.9);
+  pointer-events: none;
+  transition: opacity .24s cubic-bezier(.22,.68,0,1.2),
+              transform .24s cubic-bezier(.22,.68,0,1.2),
+              visibility .24s;
+}
+.theme-panel.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.theme-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background .18s, transform .18s;
+  color: rgba(255,255,255,.8);
+  font-size: 12.5px;
+  font-weight: 600;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+.theme-row:hover  { background: rgba(255,255,255,.1); transform: translateX(4px); }
+.theme-row.active { background: rgba(255,255,255,.16); color: #fff; }
+.theme-row.active::after { content: '✓'; margin-left: auto; opacity: .85; font-size: 13px; }
+
+.swatch {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.28);
+  flex-shrink: 0;
+  transition: transform .22s cubic-bezier(.22,.68,0,1.4), box-shadow .22s;
+}
+.theme-row:hover .swatch {
+  transform: scale(1.2) rotate(-5deg);
+  box-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+
+/* ══════════════════════════════════════════
+   CARD
+══════════════════════════════════════════ */
+#card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 22px 26px 28px;
+  box-shadow: 0 22px 68px rgba(0,0,0,.58);
+  max-width: 820px;
+  width: 100%;
+  transition: background .55s, box-shadow .3s;
+  position: relative;
+  z-index: 5;
+  animation: cardEntrance .65s cubic-bezier(.22,.68,0,1.2) .08s both;
+}
+#card:hover {
+  box-shadow: 0 28px 80px rgba(0,0,0,.65);
+}
+@media (max-width: 480px) {
+  #card { padding: 16px 12px 20px; }
+}
+
+/* ── DECO ── */
+.deco { text-align: center; }
+.deco-top    { margin-bottom: 10px; }
+.deco-bottom { margin-top: 12px; }
+
+.line1 {
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--accent-dark) 15%,
+    var(--accent) 35%,
+    #fff8 50%,
+    var(--accent) 65%,
+    var(--accent-dark) 85%,
+    transparent 100%);
+  background-size: 300% 100%;
+  margin-bottom: 4px;
+  transition: background .55s;
+  animation: decoShimmer 3.5s linear infinite;
+}
+.line2 {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transition: background .55s;
+  animation: lineBreath 3s 1.2s ease-in-out infinite;
+}
+
+/* ── TITLE ── */
+.title-wrap    { text-align: center; margin-bottom: 4px; }
+.subtitle-wrap { text-align: center; margin-bottom: 16px; }
+
+#title-display, #subtitle-display {
+  display: inline-block;
+  cursor: pointer;
+  padding: 3px 10px;
+  border-radius: 5px;
+  transition: background .2s, transform .22s cubic-bezier(.22,.68,0,1.4);
+}
+#title-display:hover {
+  background: rgba(201,168,76,.16);
+  transform: scale(1.03) translateY(-1px);
+}
+#subtitle-display:hover {
+  background: rgba(201,168,76,.12);
+  transform: scale(1.02);
+}
+
+#title-display {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(15px, 4.5vw, 22px);
+  font-weight: 800;
+  color: var(--title-color);
+  letter-spacing: 1.5px;
+  transition: color .55s;
+}
+#subtitle-display {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(11px, 3vw, 13px);
+  font-style: italic;
+  color: var(--sub-color);
+  transition: color .55s;
+}
+
+.editable-input {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  text-align: center;
+  width: 90%;
+  border: 1.5px solid var(--accent);
+  border-radius: 5px;
+  background: rgba(201,168,76,.1);
+  padding: 4px 12px;
+  outline: none;
+  animation: cellGlow .5s ease;
+}
+
+/* ══════════════════════════════════════════
+   TABLE
+══════════════════════════════════════════ */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 3px;
+}
+
+table {
+  width: 100%;
+  min-width: 440px;
+  border-collapse: collapse;
+  border: 2px solid var(--accent-dark);
+  box-shadow: 0 3px 14px rgba(0,0,0,.12);
+  transition: border-color .55s;
+}
+
+thead th {
+  background: linear-gradient(180deg, var(--h1) 0%, var(--h2) 100%);
+  color: var(--h-text);
+  padding: clamp(8px,2vw,11px) clamp(8px,2vw,14px);
+  font-size: clamp(10.5px,1.8vw,13px);
+  font-weight: 700;
+  letter-spacing: .4px;
+  text-align: center;
+  border-right: 1px solid var(--h-border);
+  border-bottom: 2px solid var(--accent-dark);
+  white-space: nowrap;
+  transition: background .55s, color .55s;
+}
+thead th:last-child { border-right: none; padding: 8px 4px; }
+
+tbody tr:nth-child(odd)  td { background: var(--row-odd); }
+tbody tr:nth-child(even) td { background: var(--row-even); }
+tbody tr:hover           td { background: var(--row-hover) !important; transition: background .12s !important; }
+
+/* ── ROW ANIMATIONS ── */
+tbody tr.row-enter td {
+  animation: rowSlideIn .42s cubic-bezier(.22,.68,0,1.2) both;
+}
+tbody tr.row-exit {
+  animation: rowExitAnim .3s cubic-bezier(.55,0,1,.6) forwards;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+td {
+  padding: clamp(8px,2vw,10px) clamp(8px,2vw,14px);
+  font-size: clamp(11px,1.8vw,13px);
+  color: var(--cell-text);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  white-space: nowrap;
+  transition: background .28s, color .55s, border-color .55s;
+}
+td:last-child { border-right: none; padding: 4px 6px; text-align: center; }
+
+.td-stt     { text-align: center; min-width: 38px; }
+.td-diadiem { text-align: left;   min-width: 110px; }
+.td-gia     { text-align: right;  min-width: 88px; }
+.td-sl      { text-align: center; min-width: 46px; }
+.td-tt      { text-align: right;  font-weight: 600; min-width: 90px; }
+.td-tt.zero { color: #aaa; }
+
+/* editable cell */
+.cell-text {
+  display: block;
+  cursor: text;
+  min-height: 24px;
+  border-radius: 3px;
+  padding: 1px 2px;
+  transition: background .18s;
+}
+.cell-text:hover { background: rgba(128,128,128,.1); }
+
+.cell-input {
+  width: 100%;
+  min-height: 30px;
+  border: 1.5px solid var(--accent);
+  border-radius: 3px;
+  padding: 3px 7px;
+  background: var(--input-bg);
+  font-size: clamp(11px,1.8vw,13px);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  color: var(--input-color);
+  outline: none;
+  animation: cellGlow .5s ease;
+  transition: border-color .2s, box-shadow .2s;
+}
+.cell-input:focus {
+  box-shadow: 0 0 0 2px rgba(201,168,76,.25);
+}
+
+/* delete btn */
+.del-btn {
+  background: none;
+  border: none;
+  color: #c0392b;
+  font-size: 13px;
+  cursor: pointer;
+  opacity: .5;
+  transition: opacity .2s, transform .2s cubic-bezier(.22,.68,0,1.4), background .2s, color .2s;
+  padding: 7px 8px;
+  min-width: 32px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.del-btn:hover  { opacity: 1; transform: scale(1.25) rotate(10deg); background: rgba(192,57,43,.1); color: #e74c3c; }
+.del-btn:active { transform: scale(.88) rotate(0); }
+.del-btn.deleting { animation: delBtnPop .28s ease forwards; }
+
+/* tfoot */
+tfoot td {
+  background: linear-gradient(180deg, var(--h1), var(--h2)) !important;
+  color: var(--h-text);
+  border-top: 2px solid var(--accent-dark);
+  border-right: 1px solid var(--h-border);
+  border-bottom: none;
+  font-weight: 800;
+  font-size: clamp(11px,2vw,13.5px);
+  letter-spacing: .4px;
+  transition: background .55s, color .55s;
+}
+tfoot .tong-label { text-align: center; }
+tfoot .tong-text  { text-align: right; font-size: clamp(10px,1.6vw,12px); }
+tfoot .tong-value { text-align: right; }
+tfoot td:last-child { border-right: none; }
+
+/* total pulse */
+#total-cell { transition: color .55s; }
+#total-cell.pulse { animation: totalPulse .45s cubic-bezier(.22,.68,0,1.4); }
+
+/* ══════════════════════════════════════════
+   HINT
+══════════════════════════════════════════ */
+.hint {
+  color: rgba(255,255,255,.32);
+  font-size: 11px;
+  margin-top: 14px;
+  text-align: center;
+  letter-spacing: .2px;
+  padding: 0 12px;
+  line-height: 1.6;
+  position: relative;
+  z-index: 5;
+  animation: hintIn .5s .75s both;
+}
+
+/* ══════════════════════════════════════════
+   LOADING OVERLAY
+══════════════════════════════════════════ */
+#loading {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.74);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+#loading.show { display: flex; }
+#loading.show .loading-box {
+  animation: loadIn .32s cubic-bezier(.22,.68,0,1.2) both;
+}
+
+.loading-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  color: #fff;
+  font-size: 15px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 16px;
+  padding: 28px 40px;
+  backdrop-filter: blur(10px);
+}
+
+.spinner {
+  width: 42px; height: 42px;
+  border: 4px solid rgba(255,255,255,.15);
+  border-top-color: var(--accent);
+  border-right-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+/* ══════════════════════════════════════════
+   THEME FLASH OVERLAY
+══════════════════════════════════════════ */
+#theme-flash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  transition: none;
+}
+#theme-flash.flash {
+  animation: themeFlash .5s ease forwards;
+}
+</style>
+</head>
+<body>
+
+<!-- Theme flash overlay -->
+<div id="theme-flash"></div>
+
+<!-- Background particles -->
+<div class="bg-particles" aria-hidden="true">
+  <div class="bp" style="--x:10%;--y:16%;--s:230px;--dur:11s;--dx:32px;--dy:-24px"></div>
+  <div class="bp" style="--x:80%;--y:52%;--s:290px;--dur:14s;--dx:-26px;--dy:34px"></div>
+  <div class="bp" style="--x:50%;--y:88%;--s:170px;--dur:8.5s;--dx:20px;--dy:-40px"></div>
+  <div class="bp" style="--x:90%;--y:10%;--s:210px;--dur:12s;--dx:-34px;--dy:22px"></div>
+  <div class="bp" style="--x:24%;--y:70%;--s:145px;--dur:9.5s;--dx:18px;--dy:-18px"></div>
+</div>
+
+<!-- Loading overlay -->
+<div id="loading">
+  <div class="loading-box">
+    <div class="spinner"></div>
+    <span id="loading-msg">Đang xuất ảnh…</span>
+  </div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <button class="btn btn-add"    onclick="addRow()">＋ Thêm Dòng</button>
+  <button class="btn btn-export" onclick="exportPNG()">📷 Xuất PNG</button>
+  <button class="btn btn-916"    onclick="export916()">📱 Xuất 9:16</button>
+
+  <!-- Theme switcher -->
+  <div class="theme-wrapper" id="theme-wrapper">
+    <button class="btn btn-theme" onclick="toggleTheme(event)">🎨 Chủ Đề ▾</button>
+    <div class="theme-panel" id="theme-panel">
+      <div class="theme-row active" data-t="classic"  onclick="applyTheme('classic',this)">
+        <div class="swatch" style="background:linear-gradient(135deg,#c9a84c,#1a2a50)"></div>✨ Classic Gold
+      </div>
+      <div class="theme-row" data-t="midnight" onclick="applyTheme('midnight',this)">
+        <div class="swatch" style="background:linear-gradient(135deg,#f0c040,#0a0a14)"></div>🌙 Midnight Dark
+      </div>
+      <div class="theme-row" data-t="forest"   onclick="applyTheme('forest',this)">
+        <div class="swatch" style="background:linear-gradient(135deg,#52b870,#0f2418)"></div>🌿 Forest Green
+      </div>
+      <div class="theme-row" data-t="sakura"   onclick="applyTheme('sakura',this)">
+        <div class="swatch" style="background:linear-gradient(135deg,#e8758a,#5a1c2e)"></div>🌸 Sakura Pink
+      </div>
+      <div class="theme-row" data-t="ocean"    onclick="applyTheme('ocean',this)">
+        <div class="swatch" style="background:linear-gradient(135deg,#38c8e8,#032840)"></div>🌊 Ocean Blue
+      </div>
+      <div class="theme-row" data-t="sunset"   onclick="applyTheme('sunset',this)">
+        <div class="swatch" style="background:linear-gradient(135deg,#ff9340,#3c1800)"></div>🌅 Sunset Amber
+      </div>
+      <div class="theme-row" data-t="lavender" onclick="applyTheme('lavender',this)">
+        <div class="swatch" style="background:linear-gradient(135deg,#b070f0,#180838)"></div>💜 Lavender Dream
+      </div>
+      <div class="theme-row" data-t="neon"     onclick="applyTheme('neon',this)">
+        <div class="swatch" style="background:linear-gradient(135deg,#00ff88,#000e06)"></div>⚡ Neon Pulse
+      </div>
+      <div class="theme-row" data-t="crimson"  onclick="applyTheme('crimson',this)">
+        <div class="swatch" style="background:linear-gradient(135deg,#e03060,#1e0008)"></div>🔴 Crimson Ruby
+      </div>
+      <div class="theme-row" data-t="arctic"   onclick="applyTheme('arctic',this)">
+        <div class="swatch" style="background:linear-gradient(135deg,#60d8f8,#021018)"></div>❄️ Arctic Ice
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-clear" onclick="clearAll()">🗑 Xóa Tất Cả</button>
+</div>
+
+<!-- Card -->
+<div id="card">
+  <div class="deco deco-top">
+    <div class="line1"></div>
+    <div class="line2"></div>
+  </div>
+
+  <div class="title-wrap">
+    <span id="title-display" onclick="editTitle()" title="Nhấp để sửa tiêu đề">
+      BẢNG TỔNG KẾT CHI PHÍ ĐI CHƠI
+    </span>
+  </div>
+  <div class="subtitle-wrap">
+    <span id="subtitle-display" onclick="editSubtitle()" title="Nhấp để sửa phụ đề">
+      Cập nhật ngày <span id="auto-date"></span>
+    </span>
+  </div>
+
+  <div class="table-wrap">
+    <table id="main-table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Địa Điểm</th>
+          <th>Giá Tiền</th>
+          <th>Số Lượng</th>
+          <th>Thành Tiền</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+      <tfoot>
+        <tr>
+          <td class="tong-label" colspan="2">Tổng</td>
+          <td class="tong-text"  colspan="2">TỔNG CỘNG:</td>
+          <td class="tong-value" id="total-cell">0 VND</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="deco deco-bottom">
+    <div class="line2"></div>
+    <div class="line1" style="margin-top:4px"></div>
+  </div>
+</div>
+
+<p class="hint">Nhấp vào ô để chỉnh sửa · Tab để di chuyển · Thành Tiền tự tính · Nhấp tiêu đề để đổi tên</p>
+
+<script>
+// ─── DATA ──────────────────────────────────────────────────────────────
+let rows = [
+  { dia_diem: 'Xăng',              gia_tien: 200000, so_luong: 2  },
+  { dia_diem: 'Đi Ăn + Nước',     gia_tien: 100000, so_luong: 2  },
+  { dia_diem: 'Suối Tiên',         gia_tien: 476160, so_luong: 2  },
+  { dia_diem: 'Đi Chơi Trò Chơi', gia_tien: 40000,  so_luong: 10 },
+  { dia_diem: 'Ăn',                gia_tien: 200000, so_luong: 2  },
+  { dia_diem: 'Dookki',            gia_tien: 250000, so_luong: 2  },
+  { dia_diem: '',                   gia_tien: 0,      so_luong: 0  },
+];
+
+let currentTheme = 'classic';
+let prevTotal    = 0;
+
+// ─── HELPERS ───────────────────────────────────────────────────────────
+const fmtVND   = n => Number(n).toLocaleString('vi-VN');
+const parseNum = s => { const v = parseInt(String(s).replace(/[^\d]/g,''), 10); return isNaN(v) ? 0 : v; };
+
+document.getElementById('auto-date').textContent =
+  new Date().toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' });
+
+// ─── TOTAL COUNTER ANIMATION ─────────────────────────────────────────
+function animateTotal(to) {
+  const from = prevTotal;
+  prevTotal  = to;
+
+  const cell = document.getElementById('total-cell');
+  cell.classList.remove('pulse');
+  void cell.offsetWidth;
+  cell.classList.add('pulse');
+  cell.addEventListener('animationend', () => cell.classList.remove('pulse'), { once: true });
+
+  if (from === to) { cell.textContent = fmtVND(to) + ' VND'; return; }
+
+  const dur = Math.min(700, 150 + Math.abs(to - from) / 3000);
+  const t0  = performance.now();
+  function step(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3); // easeOutCubic
+    cell.textContent = fmtVND(Math.round(from + (to - from) * e)) + ' VND';
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ─── RENDER ────────────────────────────────────────────────────────────
+function render() {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  let total = 0;
+
+  rows.forEach((row, idx) => {
+    const tt = row.gia_tien * row.so_luong;
+    total += tt;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-stt">${idx + 1}</td>
+      <td class="td-diadiem"><span class="cell-text" data-idx="${idx}" data-field="dia_diem">${row.dia_diem || ''}</span></td>
+      <td class="td-gia"><span class="cell-text" data-idx="${idx}" data-field="gia_tien">${row.gia_tien ? fmtVND(row.gia_tien) : ''}</span></td>
+      <td class="td-sl"><span class="cell-text" data-idx="${idx}" data-field="so_luong">${row.so_luong || ''}</span></td>
+      <td class="td-tt ${tt === 0 ? 'zero' : ''}">${fmtVND(tt)}</td>
+      <td><button class="del-btn" onclick="deleteRow(${idx})" title="Xóa">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  animateTotal(total);
+  tbody.querySelectorAll('.cell-text').forEach(s => s.addEventListener('click', startEdit));
+}
+
+// ─── CELL EDITING ──────────────────────────────────────────────────────
+function startEdit(e) {
+  const span  = e.currentTarget;
+  if (span.querySelector('input')) return;
+  const idx   = +span.dataset.idx;
+  const field = span.dataset.field;
+  const raw   = rows[idx][field];
+  const isNum = field !== 'dia_diem';
+
+  const input = document.createElement('input');
+  input.className  = 'cell-input';
+  input.type       = isNum ? 'number' : 'text';
+  input.inputMode  = isNum ? 'numeric' : 'text';
+  input.value      = (raw || '');
+  input.style.textAlign = field === 'dia_diem' ? 'left' : (field === 'so_luong' ? 'center' : 'right');
+
+  span.textContent = '';
+  span.appendChild(input);
+  input.focus();
+  input.select();
+
+  const commit = () => {
+    rows[idx][field] = isNum ? parseNum(input.value) : input.value;
+    render();
+  };
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', ev => {
+    if (ev.key === 'Enter')  { input.blur(); }
+    if (ev.key === 'Escape') { render(); }
+    if (ev.key === 'Tab')    { ev.preventDefault(); input.blur(); focusNext(idx, field); }
+  });
+}
+
+function focusNext(idx, field) {
+  const order = ['dia_diem','gia_tien','so_luong'];
+  let fi = order.indexOf(field) + 1, ri = idx;
+  if (fi >= order.length) { fi = 0; ri++; }
+  if (ri >= rows.length) return;
+  const span = document.querySelector(`.cell-text[data-idx="${ri}"][data-field="${order[fi]}"]`);
+  if (span) span.click();
+}
+
+// ─── ROW ACTIONS ───────────────────────────────────────────────────────
+function addRow() {
+  rows.push({ dia_diem: '', gia_tien: 0, so_luong: 0 });
+  render();
+  // Add entrance animation to new row
+  const trs = document.querySelectorAll('#tbody tr');
+  if (trs.length) {
+    const last = trs[trs.length - 1];
+    last.classList.add('row-enter');
+    last.addEventListener('animationend', () => last.classList.remove('row-enter'), { once: true });
+  }
+  setTimeout(() => {
+    const spans = document.querySelectorAll('.cell-text[data-field="dia_diem"]');
+    if (spans.length) spans[spans.length - 1].click();
+  }, 30);
+}
+
+function deleteRow(idx) {
+  const trs = document.querySelectorAll('#tbody tr');
+  const tr  = trs[idx];
+  if (!tr) { rows.splice(idx, 1); render(); return; }
+  // Animate del button
+  const btn = tr.querySelector('.del-btn');
+  if (btn) btn.classList.add('deleting');
+  // Animate row exit
+  tr.classList.add('row-exit');
+  tr.addEventListener('animationend', () => {
+    rows.splice(idx, 1);
+    render();
+  }, { once: true });
+}
+
+function clearAll() {
+  if (confirm('Xóa toàn bộ dữ liệu?')) {
+    rows = [{ dia_diem: '', gia_tien: 0, so_luong: 0 }];
+    render();
+  }
+}
+
+// ─── TITLE / SUBTITLE EDIT ────────────────────────────────────────────
+function editTitle() {
+  const el = document.getElementById('title-display');
+  if (el.querySelector('input')) return;
+  const cur = el.textContent.trim();
+  const inp = document.createElement('input');
+  inp.className = 'editable-input';
+  Object.assign(inp.style, {
+    fontFamily: "'Playfair Display',serif",
+    fontWeight: '800',
+    letterSpacing: '1.5px',
+    color: 'var(--title-color)',
+  });
+  inp.value = cur; el.textContent = ''; el.appendChild(inp);
+  inp.focus(); inp.select();
+  const done = () => { el.textContent = inp.value || cur; };
+  inp.addEventListener('blur', done);
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') inp.blur(); });
+}
+
+function editSubtitle() {
+  const el = document.getElementById('subtitle-display');
+  if (el.querySelector('input')) return;
+  const cur = el.textContent.trim();
+  const inp = document.createElement('input');
+  inp.className = 'editable-input';
+  Object.assign(inp.style, {
+    fontFamily: "'Playfair Display',serif",
+    fontStyle: 'italic',
+    color: 'var(--sub-color)',
+  });
+  inp.value = cur; el.textContent = ''; el.appendChild(inp);
+  inp.focus(); inp.select();
+  const done = () => { el.textContent = inp.value || cur; };
+  inp.addEventListener('blur', done);
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') inp.blur(); });
+}
+
+// ─── THEME ────────────────────────────────────────────────────────────
+function toggleTheme(e) {
+  e.stopPropagation();
+  document.getElementById('theme-panel').classList.toggle('open');
+}
+
+function applyTheme(t, el) {
+  currentTheme = t;
+  document.body.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-row').forEach(r => r.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('theme-panel').classList.remove('open');
+
+  // Flash effect
+  const flash = document.getElementById('theme-flash');
+  const accentColor = getComputedStyle(document.body).getPropertyValue('--accent').trim();
+  flash.style.background = accentColor;
+  flash.classList.remove('flash');
+  void flash.offsetWidth;
+  flash.classList.add('flash');
+}
+
+document.addEventListener('click', () => {
+  document.getElementById('theme-panel').classList.remove('open');
+});
+
+// ─── BUTTON RIPPLE ────────────────────────────────────────────────────
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const rect   = this.getBoundingClientRect();
+    const size   = Math.max(rect.width, rect.height);
+    const ripple = document.createElement('span');
+    ripple.className = 'btn-ripple';
+    ripple.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${e.clientX - rect.left - size / 2}px;
+      top:${e.clientY - rect.top  - size / 2}px;
+    `;
+    this.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+  });
+});
+
+// ─── THEME COLORS MAP (for 9:16 export) ──────────────────────────────
+const TC = {
+  classic:  { accent:'#c9a84c', accentDark:'#8a6a1e', h1:'#2a3f6f', h2:'#1a2a50', hText:'#f0d080', hBorder:'#3a5080', cardBg:'#f5f0e8', rowOdd:'#faf6ee', rowEven:'#f0e9d8', cellText:'#1a2a50', border:'#d4c4a0', titleColor:'#3d2b00', subColor:'#5a4a2a', bgA:'#0d1b35', bgB:'#16213e', bgC:'#0f3460' },
+  midnight: { accent:'#f0c040', accentDark:'#b8900a', h1:'#141420', h2:'#0a0a14', hText:'#f0c040', hBorder:'#2a2a40', cardBg:'#1c1c2e', rowOdd:'#242438', rowEven:'#1e1e30', cellText:'#dddaf5', border:'#343456', titleColor:'#f0c040', subColor:'#9080c0', bgA:'#040408', bgB:'#080812', bgC:'#0c0c1c' },
+  forest:   { accent:'#52b870', accentDark:'#2d7a48', h1:'#1b3c2a', h2:'#0f2418', hText:'#b8f0c8', hBorder:'#2d5c3a', cardBg:'#f0f7f2', rowOdd:'#f7faf8', rowEven:'#e6f2ec', cellText:'#1b3c2a', border:'#a8d8bc', titleColor:'#0f2418', subColor:'#2d5c3a', bgA:'#041208', bgB:'#081e10', bgC:'#0c2a18' },
+  sakura:   { accent:'#e8758a', accentDark:'#c03858', h1:'#7a2840', h2:'#5a1c2e', hText:'#ffd8e4', hBorder:'#9a3858', cardBg:'#fff5f7', rowOdd:'#fff9fa', rowEven:'#feeef2', cellText:'#5a1c2e', border:'#f0b4c4', titleColor:'#5a1c2e', subColor:'#8a3a50', bgA:'#280614', bgB:'#3c0e22', bgC:'#1c040e' },
+  ocean:    { accent:'#38c8e8', accentDark:'#1890b0', h1:'#054060', h2:'#032840', hText:'#a8eeff', hBorder:'#0a6080', cardBg:'#f0f8ff', rowOdd:'#f6fbff', rowEven:'#e6f2ff', cellText:'#032840', border:'#a4d4f0', titleColor:'#032840', subColor:'#0a5878', bgA:'#020c18', bgB:'#041628', bgC:'#062030' },
+  sunset:   { accent:'#ff9340', accentDark:'#c06000', h1:'#3c1800', h2:'#281000', hText:'#ffd8a8', hBorder:'#5a2e00', cardBg:'#fff9f0', rowOdd:'#fffbf5', rowEven:'#fff0e0', cellText:'#3c1800', border:'#f0c090', titleColor:'#3c1800', subColor:'#804000', bgA:'#1a0800', bgB:'#2e1200', bgC:'#1a0e00' },
+  lavender: { accent:'#b070f0', accentDark:'#6830b0', h1:'#2a1050', h2:'#180830', hText:'#e8d0ff', hBorder:'#402070', cardBg:'#f9f0ff', rowOdd:'#fcf8ff', rowEven:'#f0e8ff', cellText:'#2a1050', border:'#d0a8f0', titleColor:'#2a1050', subColor:'#6030a0', bgA:'#0c0420', bgB:'#180838', bgC:'#100620' },
+  neon:     { accent:'#00ff88', accentDark:'#00cc66', h1:'#001a0c', h2:'#000e06', hText:'#80ffcc', hBorder:'#004422', cardBg:'#04140e', rowOdd:'#06180e', rowEven:'#051410', cellText:'#a0ffd8', border:'#005530', titleColor:'#00ff88', subColor:'#00cc66', bgA:'#000804', bgB:'#000c06', bgC:'#001008' },
+  crimson:  { accent:'#e03060', accentDark:'#980020', h1:'#300010', h2:'#1e0008', hText:'#ffa0b8', hBorder:'#500020', cardBg:'#fff5f8', rowOdd:'#fff8fb', rowEven:'#ffecf2', cellText:'#300010', border:'#f0a0b8', titleColor:'#300010', subColor:'#700020', bgA:'#180008', bgB:'#260010', bgC:'#100006' },
+  arctic:   { accent:'#60d8f8', accentDark:'#1898c8', h1:'#0a2a40', h2:'#061828', hText:'#c8f0ff', hBorder:'#184868', cardBg:'#f0faff', rowOdd:'#f6fcff', rowEven:'#e6f4ff', cellText:'#0a2a40', border:'#88d0f0', titleColor:'#0a2a40', subColor:'#1068a8', bgA:'#010810', bgB:'#021018', bgC:'#031420' },
+};
+
+// ─── EXPORT PNG ───────────────────────────────────────────────────────
+async function exportPNG() {
+  commitEdits();
+  const dels   = document.querySelectorAll('.del-btn');
+  const lastTh = document.querySelector('thead th:last-child');
+  const lastTd = document.querySelectorAll('tfoot td:last-child, tbody td:last-child');
+  dels.forEach(b   => b.style.visibility = 'hidden');
+  lastTh.style.display = 'none';
+  lastTd.forEach(td => td.style.display = 'none');
+
+  showLoading('Đang xuất ảnh PNG…');
+  try {
+    const canvas = await html2canvas(document.getElementById('card'), {
+      scale: 2.5, useCORS: true, logging: false, backgroundColor: null,
+    });
+    download(canvas, 'bang-tong-ket.png');
+  } catch(err) { alert('Lỗi: ' + err.message); }
+  finally {
+    hideLoading();
+    dels.forEach(b   => b.style.visibility = '');
+    lastTh.style.display = '';
+    lastTd.forEach(td => td.style.display = '');
+  }
+}
+
+// ─── EXPORT 9:16 ──────────────────────────────────────────────────────
+async function export916() {
+  commitEdits();
+  const t        = TC[currentTheme] || TC.classic;
+  const title    = document.getElementById('title-display').textContent.trim();
+  const subtitle = document.getElementById('subtitle-display').textContent.trim();
+
+  let rowsHTML = '', total = 0;
+  rows.forEach((row, idx) => {
+    const tt  = row.gia_tien * row.so_luong;
+    total += tt;
+    const bg  = idx % 2 === 0 ? t.rowOdd : t.rowEven;
+    const tdS = `background:${bg}; color:${t.cellText}; border-bottom:1px solid ${t.border}; border-right:1px solid ${t.border}; padding:8px 9px; font-size:12px; font-family:'Be Vietnam Pro',sans-serif;`;
+    rowsHTML += `<tr>
+      <td style="${tdS} text-align:center; min-width:28px;">${idx+1}</td>
+      <td style="${tdS} text-align:left;">${row.dia_diem || ''}</td>
+      <td style="${tdS} text-align:right;">${row.gia_tien ? fmtVND(row.gia_tien) : ''}</td>
+      <td style="${tdS} text-align:center; min-width:30px;">${row.so_luong || ''}</td>
+      <td style="${tdS} text-align:right; font-weight:600; border-right:none;">${fmtVND(tt)}</td>
+    </tr>`;
+  });
+
+  const thS = `background:linear-gradient(180deg,${t.h1},${t.h2}); color:${t.hText}; padding:9px; font-size:11.5px; font-weight:700; font-family:'Be Vietnam Pro',sans-serif; letter-spacing:.3px; border-right:1px solid ${t.hBorder}; border-bottom:2px solid ${t.accentDark}; white-space:nowrap;`;
+
+  const innerHTML = `
+  <div style="
+    width:540px; min-height:960px;
+    background:linear-gradient(135deg,${t.bgA} 0%,${t.bgB} 50%,${t.bgC} 100%);
+    display:flex; align-items:center; justify-content:center;
+    padding:44px 24px; box-sizing:border-box;
+    font-family:'Be Vietnam Pro',sans-serif;
+  ">
+    <div style="
+      background:${t.cardBg}; border-radius:8px;
+      padding:22px 20px 26px; width:100%; max-width:492px;
+      box-shadow:0 20px 60px rgba(0,0,0,.55); box-sizing:border-box;
+    ">
+      <div style="height:2px; background:linear-gradient(90deg,transparent,${t.accentDark},${t.accent},${t.accentDark},transparent); margin-bottom:4px;"></div>
+      <div style="height:1px; background:linear-gradient(90deg,transparent,${t.accent},transparent); margin-bottom:12px;"></div>
+      <div style="text-align:center; margin-bottom:4px;">
+        <span style="font-family:'Playfair Display',serif; font-size:17px; font-weight:800; color:${t.titleColor}; letter-spacing:1.5px;">${title}</span>
+      </div>
+      <div style="text-align:center; margin-bottom:14px;">
+        <span style="font-family:'Playfair Display',serif; font-size:12px; font-style:italic; color:${t.subColor};">${subtitle}</span>
+      </div>
+      <table style="width:100%; border-collapse:collapse; border:2px solid ${t.accentDark}; box-shadow:0 3px 12px rgba(0,0,0,.12);">
+        <thead>
+          <tr>
+            <th style="${thS} text-align:center;">STT</th>
+            <th style="${thS} text-align:center;">Địa Điểm</th>
+            <th style="${thS} text-align:center;">Giá Tiền</th>
+            <th style="${thS} text-align:center;">SL</th>
+            <th style="${thS} border-right:none; text-align:center;">Thành Tiền</th>
+          </tr>
+        </thead>
+        <tbody>${rowsHTML}</tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" style="background:linear-gradient(180deg,${t.h1},${t.h2}); color:${t.hText}; border-top:2px solid ${t.accentDark}; border-right:1px solid ${t.hBorder}; font-weight:800; font-size:12px; font-family:'Be Vietnam Pro',sans-serif; text-align:center; padding:9px; letter-spacing:.3px;">Tổng</td>
+            <td colspan="2" style="background:linear-gradient(180deg,${t.h1},${t.h2}); color:${t.hText}; border-top:2px solid ${t.accentDark}; border-right:1px solid ${t.hBorder}; font-weight:800; font-size:11px; font-family:'Be Vietnam Pro',sans-serif; text-align:right; padding:9px; letter-spacing:.3px;">TỔNG CỘNG:</td>
+            <td style="background:linear-gradient(180deg,${t.h1},${t.h2}); color:${t.hText}; border-top:2px solid ${t.accentDark}; font-weight:800; font-size:13px; font-family:'Be Vietnam Pro',sans-serif; text-align:right; padding:9px; letter-spacing:.3px;">${fmtVND(total)} VND</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div style="height:1px; background:linear-gradient(90deg,transparent,${t.accent},transparent); margin-top:12px; margin-bottom:4px;"></div>
+      <div style="height:2px; background:linear-gradient(90deg,transparent,${t.accentDark},${t.accent},${t.accentDark},transparent);"></div>
+    </div>
+  </div>`;
+
+  const frame = document.createElement('div');
+  frame.style.cssText = 'position:fixed; left:0; top:0; width:540px; z-index:9998; pointer-events:none;';
+  frame.innerHTML = innerHTML;
+  document.body.appendChild(frame);
+
+  showLoading('Đang xuất ảnh 9:16…');
+  await new Promise(r => setTimeout(r, 80));
+
+  try {
+    const inner  = frame.firstElementChild;
+    const canvas = await html2canvas(inner, {
+      scale: 2, useCORS: true, logging: false, backgroundColor: null,
+      width: 540, height: inner.scrollHeight,
+    });
+    download(canvas, 'bang-tong-ket-9x16.png');
+  } catch(err) { alert('Lỗi: ' + err.message); }
+  finally {
+    hideLoading();
+    document.body.removeChild(frame);
+  }
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────
+function commitEdits() {
+  document.querySelectorAll('.cell-input, .editable-input').forEach(i => i.blur());
+}
+function showLoading(msg) {
+  document.getElementById('loading-msg').textContent = msg;
+  document.getElementById('loading').classList.add('show');
+}
+function hideLoading() {
+  document.getElementById('loading').classList.remove('show');
+}
+function download(canvas, filename) {
+  const a   = document.createElement('a');
+  a.download = filename;
+  a.href     = canvas.toDataURL('image/png');
+  a.click();
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
